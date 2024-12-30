@@ -1,0 +1,19 @@
+{
+  "name": "kafka-producer",
+  "version": "1.0.0",
+  "description": "Kafka producer that publishes random events",
+  "main": "src/producer.js",
+  "scripts": {
+    "start": "node src/producer.js",
+    "docker:build": "docker build -t kafka-random-producer .",
+    "docker:run": "docker run --env-file .env kafka-random-producer"
+  },
+  "keywords": ["kafka", "producer", "events"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "kafkajs": "^2.2.4",
+    "uuid": "^9.0.0",
+    "dotenv": "^16.3.1"
+  }
+}
