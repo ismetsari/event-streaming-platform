@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-kafka-producer
+  labels:
+    app: kafka-producer
+spec:
+  replicas: {{ .Values.kafkaProducer.replicaCount }}
+  selector:
+    matchLabels:
+      app: kafka-producer
+  template:
+    metadata:
+      labels:
+        app: kafka-producer
+    spec:
+      initContainers:
+        - name: wait-for-kafka
+          image: busybox:1.28
+          command: ['sh', '-c', 'until nc -z event-streaming-platform-kafka 9092; do echo waiting for kafka; sleep 5; done;']
+      containers:
+        - name: kafka-producer
+          image: "{{ .Values.kafkaProducer.image.repository }}:{{ .Values.kafkaProducer.image.tag }}"
+          imagePullPolicy: {{ .Values.kafkaProducer.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env:
+            {{- range .Values.kafkaProducer.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3
+          resources:
+            {{- toYaml .Values.kafkaProducer.resources | nindent 12 }}

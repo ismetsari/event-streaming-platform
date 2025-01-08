@@ -1,0 +1,12 @@
+apiVersion: v2
+name: event-streaming-platform
+description: Event Streaming Platform with Kafka Producer, Consumer and Event API
+version: 0.1.0
+type: application
+dependencies:
+  - name: kafka
+    version: "25.x.x"
+    repository: "https://charts.bitnami.com/bitnami"
+  - name: mongodb
+    version: "14.x.x"
+    repository: "https://charts.bitnami.com/bitnami" 

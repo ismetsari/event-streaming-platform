@@ -1,0 +1,119 @@
+kafka:
+  listeners:
+    client:
+      protocol: PLAINTEXT
+      name: CLIENT
+      port: 9092
+    internal:
+      protocol: PLAINTEXT
+      name: INTERNAL
+      port: 9094
+  externalAccess:
+    enabled: false
+  service:
+    ports:
+      client: 9092
+      internal: 9094
+  nameOverride: kafka
+  replicaCount: 1
+  heapOpts: "-Xmx1024m -Xms1024m"
+  deleteTopicEnable: true
+  autoCreateTopicsEnable: true
+  persistence:
+    enabled: true
+    size: 8Gi
+  zookeeper:
+    enabled: false
+    persistence:
+      enabled: true
+      size: 8Gi
+
+
+mongodb:
+  nameOverride: mongodb
+  architecture: standalone
+  auth:
+    enabled: false
+  persistence:
+    enabled: true
+    size: 8Gi
+
+kafkaProducer:
+  image:
+    repository: ismetsari/event-streaming-platform-kafka-producer
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  env:
+    - name: KAFKA_BOOTSTRAP_SERVERS
+      value: "event-streaming-platform-kafka:9092"
+    - name: KAFKA_TOPIC
+      value: "random-events"
+    - name: KAFKA_CLIENT_ID
+      value: "random-event-producer"
+    - name: MONGODB_URI
+      value: "mongodb://event-streaming-platform-mongodb:27017/events"
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+
+kafkaConsumer:
+  image:
+    repository: ismetsari/event-streaming-platform-kafka-consumer
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  env:
+    - name: KAFKA_BOOTSTRAP_SERVERS
+      value: "event-streaming-platform-kafka:9092"
+    - name: KAFKA_TOPIC
+      value: "random-events"
+    - name: KAFKA_GROUP_ID
+      value: "event-consumer-group"
+    - name: KAFKA_CLIENT_ID
+      value: "event-consumer"
+    - name: MONGODB_URI
+      value: "mongodb://event-streaming-platform-mongodb:27017/events"
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+
+eventApi:
+  image:
+    repository: ismetsari/event-streaming-platform-event-api
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 3000
+  env:
+    - name: KAFKA_BOOTSTRAP_SERVERS
+      value: "event-streaming-platform-kafka:9092"
+    - name: MONGODB_URI
+      value: "mongodb://event-streaming-platform-mongodb:27017/events"
+    - name: PORT
+      value: "3000"
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: event-api.local
+        paths:
+          - path: /
+            pathType: Prefix 
