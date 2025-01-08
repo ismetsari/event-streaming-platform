@@ -6,11 +6,14 @@ This project consists of three main services that work together to handle event 
 
 ```
 event-streaming-platform/
+├── charts
 ├── kafka-producer/     # Produces events to Kafka topics
 ├── kafka-consumer/     # Consumes events from Kafka topics
 ├── event-api/         # API service for handling events
-├── shared/           # Shared code and configurations
+├── templates/         # Shared code and configurations
 └── docker-compose.yml # Local development setup
+├── Chart.yaml         # Shared code and configurations
+└── values.yaml        # Shared code and configurations
 ```
 
 ## Services
@@ -27,23 +30,37 @@ event-streaming-platform/
 ## Getting Started
 
 1. Clone the repository
+   ```
+   gh repo clone ismetsari/event-streaming-platform
+   ```
 2. Navigate to the project directory:
-   ```bash
+   ```
    cd event-streaming-platform
    ```
-3. Start all services using Docker Compose:
-   ```bash
-   docker-compose up
+3. Start all services using Helm:
    ```
+   helm install event-streaming-platform .
+   ```
+   ## Challanges Faced 
 
-## Development
+   1. I have no experience with Node.js, which has contributed to challenges in the project. The code occasionally exits, causing the pod to restart automatically, and my current Node.js knowledge isn't sufficient to fully resolve this issue. AI tools helped me to fix this issue.
+   2. I had no prior experience with Kafka, so I had to learn it from scratch. I watched instructional videos on YouTube and thoroughly reviewed the documentation to build my understanding. AI tools helped me to fix this issue.
 
-Each service can be developed independently in its own directory. For local development without Docker:
+   ## Scalability
 
-1. Navigate to the service directory
-2. Install dependencies
-3. Follow the service-specific README for development instructions
+   1. Kafka is highly scalable, allowing seamless horizontal scaling by adding more brokers to a cluster to handle increased data and traffic. 
+   2. Kubernetes-native scaling capabilities.
 
-## Environment Variables
+   ## Fault Tolerance
 
-Each service has its own environment variables defined in the docker-compose.yml file. For local development, create a `.env` file in each service directory. 
+   1. The platform uses Apache Kafka as the core messaging system, which inherently provides fault tolerance through data replication.
+   2. Managing numerous services can be overwhelming.
+   3. MongoDB is used for data storage with persistence.
+   4. Number of replicas can be increased to improve fault tolerance.
+
+   ## Security
+
+   1. External access to Kafka is disabled.
+   2. Resource limits are set for services to prevent DoS attacks.
+   3. Kafka is using PLAINTEXT protocol without encryption this is a security risk.
+   4. MongoDB authentication is disabled this is a security risk.
