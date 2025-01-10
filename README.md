@@ -11,7 +11,7 @@ event-streaming-platform/
 ├── kafka-consumer/     # Consumes events from Kafka topics
 ├── event-api/         # API service for handling events
 ├── templates/         # Shared code and configurations
-└── docker-compose.yml # Local development setup
+├── docker-compose.yml # Local development setup
 ├── Chart.yaml         # Shared code and configurations
 └── values.yaml        # Shared code and configurations
 ```
@@ -26,6 +26,8 @@ event-streaming-platform/
 
 - Docker and Docker Compose
 - Node.js (for local development)
+- Helm
+- Kubernetes
 
 ## Getting Started
 
