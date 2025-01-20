@@ -25,8 +25,8 @@ event-streaming-platform/
 ## Prerequisites
 
 - Docker and Docker Compose
-- Node.js (for local development)
-- Helm
+- Node.js
+- Bitnami's Helm
 - Kubernetes
 
 ## Getting Started
@@ -43,7 +43,7 @@ event-streaming-platform/
    ```
    helm install event-streaming-platform .
    ```
-   ## Challanges Faced 
+   ## Challenges Faced 
 
    1. I have no experience with Node.js, which has contributed to challenges in the project. The code occasionally exits, causing the pod to restart automatically, and my current Node.js knowledge isn't sufficient to fully resolve this issue.
    2. I had no prior experience with Kafka, so I had to learn it from scratch. I watched instructional videos on YouTube and thoroughly reviewed the documentation to build my understanding. AI tools helped me to fix this issue.
@@ -66,3 +66,4 @@ event-streaming-platform/
    2. Resource limits are set for services to prevent DoS attacks.
    3. Kafka is using PLAINTEXT protocol without encryption this is a security risk.
    4. MongoDB authentication is disabled this is a security risk.
+   5. Images are scanned by using trivy. 
