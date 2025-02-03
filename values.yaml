@@ -58,8 +58,8 @@ kafkaProducer:
       cpu: 500m
       memory: 512Mi
     requests:
-      cpu: 200m
-      memory: 256Mi
+      cpu: 500m
+      memory: 512Mi
 
 kafkaConsumer:
   image:
@@ -83,8 +83,8 @@ kafkaConsumer:
       cpu: 500m
       memory: 512Mi
     requests:
-      cpu: 200m
-      memory: 256Mi
+      cpu: 500m
+      memory: 512Mi
 
 eventApi:
   image:

@@ -7,8 +7,8 @@ This project consists of three main services that work together to handle event 
 ```
 event-streaming-platform/
 ├── charts
-├── kafka-producer/     # Produces events to Kafka topics
-├── kafka-consumer/     # Consumes events from Kafka topics
+├── kafka-producer/    # Produces events to Kafka topics
+├── kafka-consumer/    # Consumes events from Kafka topics
 ├── event-api/         # API service for handling events
 ├── templates/         # Shared code and configurations
 ├── docker-compose.yml # Local development setup
