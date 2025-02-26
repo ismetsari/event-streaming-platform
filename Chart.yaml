@@ -10,3 +10,12 @@ dependencies:
   - name: mongodb
     version: "14.x.x"
     repository: "https://charts.bitnami.com/bitnami" 
+  - name: prometheus
+    version: "1.x.x"
+    repository: "https://charts.bitnami.com/bitnami"
+  - name: grafana
+    version: "11.x.x"
+    repository: "https://charts.bitnami.com/bitnami"
+  - name: grafana-operator
+    version: "4.x.x"
+    repository: "https://charts.bitnami.com/bitnami"

@@ -1,6 +1,32 @@
 const { Kafka } = require('kafkajs');
 const { v4: uuidv4 } = require('uuid');
+const express = require('express');
+const client = require('prom-client'); // Prometheus client for metrics
 require('dotenv').config();
+
+//Set up Express for metrics endpoint
+const app = express();
+const port = process.env.METRICS_PORT || 9102; // Port for Prometheus scraping
+
+// Create Prometheus registry and default metrics
+const register = new client.Registry();
+client.collectDefaultMetrics({ register });
+
+// Start Prometheus metrics server
+const startMetricsServer = async () => {
+  try {
+    app.get('/metrics', async (req, res) => {
+      res.set('Content-Type', register.contentType);
+      res.end(await register.metrics());
+    });
+
+    app.listen(port, () => {
+      console.log(`✅ Metrics server running at http://localhost:${port}/metrics`);
+    });
+  } catch (err) {
+    console.error('❌ Error starting metrics server:', err);
+  }
+};
 
 // Kafka configuration from environment variables
 const kafka = new Kafka({
@@ -82,5 +108,6 @@ const shutdown = async () => {
 process.on('SIGTERM', shutdown);
 process.on('SIGINT', shutdown);
 
-// Start the producer
+// Start both the Kafka Producer and Metrics Server
+startMetricsServer();
 publishEvents(); 

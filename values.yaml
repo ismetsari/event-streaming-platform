@@ -42,7 +42,7 @@ kafkaProducer:
   image:
     repository: ismetsari/event-streaming-platform-kafka-producer
     tag: latest
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   replicaCount: 1
   env:
     - name: KAFKA_BOOTSTRAP_SERVERS
@@ -117,3 +117,81 @@ eventApi:
         paths:
           - path: /
             pathType: Prefix 
+
+grafana:
+  enabled: true
+  adminUser: "admin"
+  adminPassword: "admin"
+  persistence:
+    enabled: true
+    size: 10Gi
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://event-streaming-platform-prometheus-server.default.svc:9090
+          access: proxy
+          isDefault: true    
+  dashboards:
+    enabled: true
+    default:
+      kubernetes:
+        gnetId: 6417
+        revision: 1
+        datasource: Prometheus
+
+prometheus:
+  enabled: true
+  persistence:
+    enabled: true
+    size: 10Gi
+  nodeExporter:
+    enabled: false
+  kubeStateMetrics:
+    enabled: true
+  server:
+    extraScrapeConfigs: 
+      - job_name: "kubernetes-service-endpoints"
+        honor_labels: true
+        kubernetes_sd_configs:
+          - role: endpoints
+            namespaces:
+              names:
+                - default
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_label_app]
+            action: keep
+            regex: kafka-producer
+          - source_labels: [__meta_kubernetes_service_label_app]
+            target_label: job
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_service_name]
+            target_label: service
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: pod
+    persistentVolume:
+      enabled: true
+      size: 10Gi
+      storageClass: "standard"
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+  serviceMonitor:
+    enabled: true
+    namespace: default
+  serviceMonitors:
+    - name: kafka-producer
+      selector:
+        matchLabels:
+          app: kafka-producer
+      endpoints:
+        - port: metrics
+          path: "/metrics"
+          interval: 15s
+  alertmanager:
+    enabled: true
+  pushgateway:
+    enabled: false

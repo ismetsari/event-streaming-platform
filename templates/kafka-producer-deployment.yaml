@@ -26,6 +26,9 @@ spec:
             - name: http
               containerPort: 3000
               protocol: TCP
+            - name: metrics
+              containerPort: 9102
+              protocol: TCP
           env:
             {{- range .Values.kafkaProducer.env }}
             - name: {{ .name }}

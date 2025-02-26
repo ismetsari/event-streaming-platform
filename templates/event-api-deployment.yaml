@@ -13,11 +13,22 @@ spec:
     metadata:
       labels:
         app: event-api
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
+        prometheus.io/path: "/metrics"
     spec:
       containers:
         - name: event-api
           image: "{{ .Values.eventApi.image.repository }}:{{ .Values.eventApi.image.tag }}"
           imagePullPolicy: {{ .Values.eventApi.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.eventApi.service.port }}
+              protocol: TCP
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
           env:
             {{- range .Values.eventApi.env }}
             - name: {{ .name }}

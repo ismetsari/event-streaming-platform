@@ -8,12 +8,18 @@
     "docker:build": "docker build -t kafka-random-producer .",
     "docker:run": "docker run --env-file .env kafka-random-producer"
   },
-  "keywords": ["kafka", "producer", "events"],
+  "keywords": [
+    "kafka",
+    "producer",
+    "events"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.21.2",
     "kafkajs": "^2.2.4",
-    "uuid": "^9.0.0",
-    "dotenv": "^16.3.1"
+    "prom-client": "^14.0.1",
+    "uuid": "^9.0.0"
   }
 }

@@ -13,6 +13,10 @@ spec:
     metadata:
       labels:
         app: kafka-consumer
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9103"
+        prometheus.io/path: "/metrics"
     spec:
       initContainers:
         - name: wait-for-kafka
@@ -28,6 +32,9 @@ spec:
           ports:
             - name: http
               containerPort: 3000
+              protocol: TCP
+            - name: metrics
+              containerPort: 9090
               protocol: TCP
           env:
             {{- range .Values.kafkaConsumer.env }}

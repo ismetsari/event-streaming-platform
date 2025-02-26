@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: event-streaming-platform-pod-monitor
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: kafka-producer
+  podMetricsEndpoints:
+    - port: "9102"
+      path: "/metrics"
+      interval: 30s

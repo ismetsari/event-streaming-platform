@@ -8,6 +8,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Expose health check port
+EXPOSE 9102
+
 # Copy source code
 COPY src/ ./src/
 

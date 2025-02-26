@@ -5,5 +5,14 @@ dependencies:
 - name: mongodb
   repository: https://charts.bitnami.com/bitnami
   version: 14.13.0
-digest: sha256:34d95417e2b529cabcd54b5861c455768c390ad5c283a6ad17373047a381255d
-generated: "2025-01-07T06:58:46.498846271+03:00"
+- name: prometheus
+  repository: https://charts.bitnami.com/bitnami
+  version: 1.4.7
+- name: grafana
+  repository: https://charts.bitnami.com/bitnami
+  version: 11.4.9
+- name: grafana-operator
+  repository: https://charts.bitnami.com/bitnami
+  version: 4.9.7
+digest: sha256:5247fecf3d35dcd6e195827a26bd3b2f9f831737cd4a9d573eded205ba3aca54
+generated: "2025-02-26T02:04:49.716120256+03:00"

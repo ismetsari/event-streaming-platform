@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: event-streaming-platform-kafka-consumer
+  labels:
+    app: event-streaming-platform-kafka-consumer
+spec:
+  selector:
+    app: event-streaming-platform-kafka-consumer
+  ports:
+    - protocol: TCP
+      port: 9103
+      targetPort: 9103
