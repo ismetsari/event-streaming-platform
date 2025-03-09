@@ -7,12 +7,15 @@ dependencies:
   version: 14.13.0
 - name: prometheus
   repository: https://charts.bitnami.com/bitnami
-  version: 1.4.7
+  version: 1.4.8
 - name: grafana
   repository: https://charts.bitnami.com/bitnami
-  version: 11.4.9
+  version: 11.4.10
 - name: grafana-operator
   repository: https://charts.bitnami.com/bitnami
-  version: 4.9.7
-digest: sha256:5247fecf3d35dcd6e195827a26bd3b2f9f831737cd4a9d573eded205ba3aca54
-generated: "2025-02-26T02:04:49.716120256+03:00"
+  version: 4.9.8
+- name: kube-prometheus-stack
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 65.8.1
+digest: sha256:08e5f00d48544507b9e9e1651bff89012637f446e90879812e9e49cc459fe150
+generated: "2025-03-09T15:09:52.904462073+03:00"
